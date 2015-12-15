@@ -1,18 +1,54 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Placeholder</title>
+        <title>Energy Incremental</title>
         <meta charset="utf-8">
         <script src="js/main.js"></script>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous">
         <link rel="stylesheet" href="css/main.css">
     </head>
     <body>
-        <footer>
-            <center>
-                <b>Made by GandalfTheHobbit</b>
-                <a class="btn btn-success" href="https://github.com/GandalfTheHobbit/GandalfTheHobbit.github.io">Source code</a>
-            </center>
-        </footer>
+        <div id="container">
+            <div id="game">
+                <h1>Energy Incremental</h1>
+                <hr>
+                <button class="btn btn-primary btn-lg btn-block">Use your mind to generate <span id="energyPerCrankClick">1</span> energy.
+                <b>
+                    Energy: <span id="energy">0</span><br>
+                    Energy per second: <span id="eps">0</span><br><br>
+
+                    Metal: <span id="metal">0</span><br>
+                </b>
+                <h3>Conversions</h3>
+                <table class="table">
+                    <tr>
+                        <td>
+                            Metal
+                        </td>
+                        <td>
+                            <button id="energyToMetal" class="btn btn-success">Make for 2 energy</button>
+                        </td>
+                    </tr>
+                </table>
+                <hr>
+                <h3>Buildings</h3>
+                <table class="table">
+                    <tr>
+                        <td>
+                            Generator <small id="generatorLevel">lvl 0</small>
+                        </td>
+                        <td>
+                            <button id="buyGenerator" class="btn btn-success">Make for 10 metal</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <footer>
+                <center>
+                    <b>Made by GandalfTheHobbit </b>
+                    <a class="btn btn-success" target="_blank" href="https://github.com/GandalfTheHobbit/GandalfTheHobbit.github.io"> Source code</a>
+                </center>
+            </footer>
+        </div id="container">
     </body>
 </html>
