@@ -64,7 +64,7 @@
                     </tr>
                     <tr id="basicRobot">
                         <td>
-                            <b>Basic robot, fabricates 1 metal <small id="basicRobotLevel">lvl 0</small></b>
+                            <b>Basic robot, fabricates <span id="basicRobotConversions">1</span> metal <small id="basicRobotLevel">lvl 0</small></b>
                         </td>
                         <td>
                             <button id="buyBasicRobot" class="btn btn-success">Make for 10 metal and 10 circuits</button>
@@ -72,7 +72,7 @@
                     </tr>
                     <tr class="hidden" id="basicFactory">
                         <td>
-                            <b>Basic factory, fabricates 1 circuit <small id="basicFactoryLevel">lvl 0</small></b>
+                            <b>Basic factory, fabricates <span id="basicFactoryConversions">1</span> circuit <small id="basicFactoryLevel">lvl 0</small></b>
                         </td>
                         <td>
                             <button id="buyBasicFactory" class="btn btn-success">Make for 50 metal and 50 circuits</button>
@@ -81,12 +81,37 @@
                 </table>
                 <h3>Upgrades</h3>
                 <table class="table">
+
+                    <tr>
+                        <td>
+                            <b>+1 generator power generation</b>
+                        </td>
+                        <td>
+                            <button id="upgradeGenerator" class="btn btn-success">Upgrade for 4 metal</button>
+                        </td>
+                    </tr>
                     <tr>
                         <td>
                             <b>+1 crank power generation</b>
                         </td>
                         <td>
                             <button id="upgradeCrank" class="btn btn-success">Upgrade for 10 energy and 5 metal</button>
+                        </td>
+                    </tr>
+                    <tr class="hidden" id="basicRobotUpgrade">
+                        <td>
+                            <b>+1 basic robot fabrication</b>
+                        </td>
+                        <td>
+                            <button id="upgradeBasicRobot" class="btn btn-success">Upgrade for 50 energy and 25 metal</button>
+                        </td>
+                    </tr>
+                    <tr class="hidden" id="basicFactoryUpgrade">
+                        <td>
+                            <b>+1 basic factory fabrication</b>
+                        </td>
+                        <td>
+                            <button id="upgradeBasicFactory" class="btn btn-success">Upgrade for 10 energy and 5 metal</button>
                         </td>
                     </tr>
                 </table>

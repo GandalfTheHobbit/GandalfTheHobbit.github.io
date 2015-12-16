@@ -13,9 +13,17 @@ var player = {
      crankUpgradeEnergyCost: 10,
      crankUpgradeMetalCost: 5,
 
+     generatorUpgradeMetalCost: 4,
+
+     basicRobotUpgradeEnergyCost: 50,
+     basicRobotUpgradeMetalCost: 25,
+
+     basicFactoryUpgradeCircuitCost: 250,
+     basicFactoryUpgradeMetalCost: 250,
+
     //Generators
      generatorCost: 2,
-     generatorEarnings: 1,
+     generatorConversions: 1,
      generatorAmount: 0,
 
      //Basic Robots
@@ -31,7 +39,9 @@ var player = {
      basicFactoryAmount: 0,
 
 
-     isBasicFactoryUnlocked: false
+     isBasicFactoryUnlocked: false,
+     isBasicRobotUpgradeUnlocked: false,
+     isBasicFactoryUpgradeUnlocked: false
 };
 
 //Loading and saving
@@ -49,12 +59,24 @@ function loadGame() {
     $("#upgradeCrank").html("Upgrade for " + player.crankUpgradeEnergyCost + " energy and " + player.crankUpgradeMetalCost + " metal");
     $("#buyBasicRobot").html("Make for " + player.basicRobotMetalCost + " metal and " + player.basicRobotCircuitCost + " circuits");
     $("#basicRobotLevel").html("lvl " + player.basicRobotAmount);
+    $("basicRobotConversions").html(basicRobotConversions);
     $("#buyBasicFactory").html("Make for " + player.basicFactoryMetalCost + " metal and " + player.basicFactoryCircuitCost + " circuits");
     $("#basicFactoryLevel").html("lvl " + player.basicFactoryAmount);
+    $("basicFactoryConversions").html(basicFactoryConversions);
 
     if(player.isBasicFactoryUnlocked === true) {
         $("#basicFactory").removeClass('hidden');
     }
+    if(player.isBasicFactoryUpgradeUnlocked === true) {
+        $("#basicFactoryUpgrade").removeClass('hidden');
+    }
+    if(player.isBasicRobotUpgradeUnlocked === true) {
+        $("#basicRobotUpgrade").removeClass('hidden');
+    }
+
+    $("#upgradeBasicRobot").html("Upgrade for " + player.basicRobotUpgradeEnergyCost + " energy and " + player.basicRobotUpgradeMetalCost + " metal");
+    $("#upgradeBasicFactory").html("Upgrade for " + player.basicFactoryUpgradeCircuitCost + " circuits and " + player.basicFactoryUpgradeMetalCost + " metal");
+
     updateScreen();
 }
 
@@ -100,9 +122,9 @@ function updateScreen() {
     $("#energy").html(player.energy);
     $("#metal").html(player.metal);
     $("#circuit").html(player.circuit);
-    $("#eps").html((player.energyPerSecond - player.metalPerSecond * 2) - player.circuitPerSecond * 4);
-    $("#mps").html(player.metalPerSecond);
-    $("#cps").html(player.circuitPerSecond);
+    $("#eps").html((player.generatorAmount * player.generatorConversions - (player.metalPerSecond * player.basicRobotConversions) * 2) - (player.circuitPerSecond * player.basicFactoryConversions) * 4);
+    $("#mps").html(player.metalPerSecond * player.basicRobotConversions);
+    $("#cps").html(player.circuitPerSecond * player.basicFactoryConversions);
     $("#energyPerCrankClick").html(player.energyAtOnce);
 }
 
@@ -145,7 +167,6 @@ $("#buyGenerator").on('click', function() {
         player.generatorCost = Math.ceil(Math.pow(1.5, player.generatorAmount + 1));
         $("#buyGenerator").html("Make for " + player.generatorCost + " metal");
         $("#generatorLevel").html("lvl " + player.generatorAmount);
-        player.energyPerSecond += player.generatorEarnings;
     } else {
         $("#buyGenerator").removeClass('btn-success').addClass('btn-warning');
         setTimeout(function(){
@@ -210,18 +231,70 @@ $("#upgradeCrank").on('click', function() {
     updateScreen();
 });
 
+$("#upgradeGenerator").on('click', function() {
+    if(player.metal >= player.generatorUpgradeMetalCost) {
+        player.metal -= player.generatorUpgradeMetalCost;
+        player.generatorConversions++;
+        player.generatorUpgradeMetalCost *= 4;
+        $("#upgradeGenerator").html("Upgrade for " + player.generatorUpgradeMetalCost + " metal");
+    } else {
+        $("#upgradeGenerator").removeClass('btn-success').addClass('btn-warning');
+        setTimeout(function(){
+            $("#upgradeGenerator").removeClass('btn-warning').addClass('btn-success');
+        }, 2000);
+    }
+    updateScreen();
+});
+
+$("#upgradeBasicRobot").on('click', function() {
+    if(player.metal >= player.basicRobotUpgradeMetalCost && player.energy >= player.basicRobotUpgradeEnergyCost) {
+        player.metal -= player.basicRobotUpgradeMetalCost;
+        player.energy -= player.basicRobotUpgradeEnergyCost;
+        player.basicRobotConversions++;
+        player.basicRobotUpgradeMetalCost *= 4;
+        player.basicRobotUpgradeEnergyCost *= 4;
+        $("#upgradeBasicRobot").html("Upgrade for " + player.basicRobotUpgradeEnergyCost + " energy and " + player.basicRobotUpgradeMetalCost + " metal");
+    } else {
+        $("#upgradeBasicRobot").removeClass('btn-success').addClass('btn-warning');
+        setTimeout(function(){
+            $("#upgradeBasicRobot").removeClass('btn-warning').addClass('btn-success');
+        }, 2000);
+    }
+    updateScreen();
+});
+
+$("#upgradeBasicFactory").on('click', function() {
+    if(player.metal >= player.basicFactoryUpgradeMetalCost && player.circuit >= player.basicFactoryUpgradeCircuitCost) {
+        player.metal -= player.basicFactoryUpgradeMetalCost;
+        player.circuit -= player.basicFactoryUpgradeCircuitCost;
+        player.basicFactoryConversions++;
+        player.basicFactoryUpgradeMetalCost *= 4;
+        player.basicFactoryUpgradeCircuitCost *= 4;
+        $("#upgradeBasicFactory").html("Upgrade for " + player.basicFactoryUpgradeCircuitCost + " circuits and " + player.basicFactoryUpgradeMetalCost + " metal");
+    } else {
+        $("#upgradeBasicFactory").removeClass('btn-success').addClass('btn-warning');
+        setTimeout(function(){
+            $("#upgradeBasicFactory").removeClass('btn-warning').addClass('btn-success');
+        }, 2000);
+    }
+    updateScreen();
+});
+
 //The main game loop
 setInterval(function(){
-    player.energy += player.energyPerSecond;
-    player.totalEnergy += player.energyPerSecond;
+    metalPerSecond = player.metalPerSecond * player.basicRobotConversions;
+    circuitPerSecond = player.circuitPerSecond * player.basicFactoryConversions;
 
-    if(player.energy >= 2 * player.metalPerSecond) {
-        player.energy -= 2 * player.metalPerSecond;
-        player.metal += player.metalPerSecond * player.basicRobotConversions;
+    player.energy += player.generatorAmount * player.generatorConversions;
+    player.totalEnergy += player.generatorAmount * player.generatorConversions;
+
+    if(player.energy >= 2 * metalPerSecond) {
+        player.energy -= 2 * metalPerSecond;
+        player.metal += metalPerSecond;
     }
-    if(player.energy >= 4 * player.circuitPerSecond) {
-        player.energy -= 4 * player.circuitPerSecond;
-        player.circuit += player.circuitPerSecond * player.basicFactoryConversions;
+    if(player.energy >= 4 * circuitPerSecond) {
+        player.energy -= 4 * circuitPerSecond;
+        player.circuit += circuitPerSecond;
     }
 
     updateScreen();
@@ -233,5 +306,13 @@ setInterval(function(){
     if(player.totalEnergy >= 2000) {
         $("#basicFactory").removeClass('hidden');
         player.isBasicFactoryUnlocked = true;
+    }
+    if(player.totalEnergy >= 1000) {
+        $("#basicRobotUpgrade").removeClass('hidden');
+        player.isBasicRobotUpgradeUnlocked = true;
+    }
+    if(player.totalEnergy >= 3000) {
+        $("#basicFactoryUpgrade").removeClass('hidden');
+        player.isBasicFactoryUpgradeUnlocked = true;
     }
 }, 10000);
