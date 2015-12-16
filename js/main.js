@@ -13,7 +13,7 @@ var player = {
      crankUpgradeEnergyCost: 10,
      crankUpgradeMetalCost: 5,
 
-     generatorUpgradeMetalCost: 4,
+     generatorUpgradeMetalCost: 10,
 
      basicRobotUpgradeEnergyCost: 50,
      basicRobotUpgradeMetalCost: 25,
@@ -41,6 +41,7 @@ var player = {
 
      isBasicFactoryUnlocked: false,
      isBasicRobotUpgradeUnlocked: false,
+     isGeneratorUpgradeUnlocked: false,
      isBasicFactoryUpgradeUnlocked: false
 };
 
@@ -72,6 +73,9 @@ function loadGame() {
     }
     if(player.isBasicRobotUpgradeUnlocked === true) {
         $("#basicRobotUpgrade").removeClass('hidden');
+    }
+    if(player.isGeneratorUpgradeUnlocked === true) {
+        $("#generatorUpgrade").removeClass('hidden');
     }
 
     $("#upgradeBasicRobot").html("Upgrade for " + player.basicRobotUpgradeEnergyCost + " energy and " + player.basicRobotUpgradeMetalCost + " metal");
@@ -303,15 +307,19 @@ setInterval(function(){
 //Auto-saving
 setInterval(function(){
     saveGame();
+    if(player.generatorAmount >= 10) {
+        $("#generatorUpgrade").removeClass('hidden');
+        player.isGeneratorUpgradeUnlocked = true;
+    }
     if(player.totalEnergy >= 2000) {
         $("#basicFactory").removeClass('hidden');
         player.isBasicFactoryUnlocked = true;
     }
-    if(player.totalEnergy >= 1000) {
+    if(player.basicRobotAmount >= 10) {
         $("#basicRobotUpgrade").removeClass('hidden');
         player.isBasicRobotUpgradeUnlocked = true;
     }
-    if(player.totalEnergy >= 3000) {
+    if(player.basicFactoryAmount >= 10) {
         $("#basicFactoryUpgrade").removeClass('hidden');
         player.isBasicFactoryUpgradeUnlocked = true;
     }
