@@ -42,9 +42,9 @@ window.onload = function() {
         updateView();
     }
 
-    window.onbeforeunload = saveGame();
+    //window.onbeforeunload = saveGame();
 
-    if(localStorage.getItem("websitename") === null){
+    if(localStorage.getItem("gameSave") === null){
         saveGame();
     } else {
         loadGame();
