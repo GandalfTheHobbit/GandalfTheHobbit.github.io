@@ -54,7 +54,7 @@
                 </table>
                 <h3>Buildings</h3>
                 <table class="table">
-                    <tr>
+                    <tr id="generator">
                         <td>
                             <b>Generator, generates 1 energy <small id="generatorLevel">lvl 0</small></b>
                         </td>
@@ -62,13 +62,22 @@
                             <button id="buyGenerator" class="btn btn-success">Make for 2 metal</button>
                         </td>
                     </tr>
-                    <tr>
+                    <tr id="basicRobot">
                         <td>
                             <b>Basic robot, fabricates 1 metal <small id="basicRobotLevel">lvl 0</small></b>
                         </td>
                         <td>
                             <button id="buyBasicRobot" class="btn btn-success">Make for 10 metal and 10 circuits</button>
                         </td>
+                    </tr>
+                    <tr class="hidden" id="basicFactory">
+                        <td>
+                            <b>Basic factory, fabricates 1 circuit <small id="basicFactoryLevel">lvl 0</small></b>
+                        </td>
+                        <td>
+                            <button id="buyBasicFactory" class="btn btn-success">Make for 50 metal and 50 circuits</button>
+                        </td>
+                    </tr>
                 </table>
                 <h3>Upgrades</h3>
                 <table class="table">

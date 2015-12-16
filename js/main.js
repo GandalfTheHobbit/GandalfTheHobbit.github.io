@@ -1,12 +1,14 @@
 //Declaring variables
 var player = {
      energy: 0,
+     totalEnergy: 0,
      energyAtOnce: 1,
      energyPerSecond: 0,
 
      metal: 0,
      metalPerSecond: 0,
      circuit: 0,
+     circuitPerSecond: 0,
 
      crankUpgradeEnergyCost: 10,
      crankUpgradeMetalCost: 5,
@@ -20,7 +22,16 @@ var player = {
      basicRobotMetalCost: 10,
      basicRobotCircuitCost: 10,
      basicRobotConversions: 1,
-     basicRobotAmount: 0
+     basicRobotAmount: 0,
+
+     //Basic factories
+     basicFactoryMetalCost: 50,
+     basicFactoryCircuitCost: 50,
+     basicFactoryConversions: 1,
+     basicFactoryAmount: 0,
+
+
+     isBasicFactoryUnlocked: false
 };
 
 //Loading and saving
@@ -38,6 +49,12 @@ function loadGame() {
     $("#upgradeCrank").html("Upgrade for " + player.crankUpgradeEnergyCost + " energy and " + player.crankUpgradeMetalCost + " metal");
     $("#buyBasicRobot").html("Make for " + player.basicRobotMetalCost + " metal and " + player.basicRobotCircuitCost + " circuits");
     $("#basicRobotLevel").html("lvl " + player.basicRobotAmount);
+    $("#buyBasicFactory").html("Make for " + player.basicFactoryMetalCost + " metal and " + player.basicFactoryCircuitCost + " circuits");
+    $("#basicFactoryLevel").html("lvl " + player.basicFactoryAmount);
+
+    if(player.isBasicFactoryUnlocked === true) {
+        $("#basicFactory").removeClass('hidden');
+    }
     updateScreen();
 }
 
@@ -70,11 +87,11 @@ $("#resettheGame").on('click', function() {
 
 
 //Content addition pack (for new content, setting it to the right values)
-if(! player.basicRobotAmount) { player.basicRobotAmount = 0; }
-if(! player.basicRobotMetalCost) { player.basicRobotMetalCost = 10; }
-if(! player.basicRobotCircuitCost) { player.basicRobotCircuitCost = 10; }
-if(! player.basicRobotConversions) { player.basicRobotConversions = 1; }
-if(! player.metalPerSecond) { player.metalPerSecond = 0; }
+if(! player.basicFactoryAmount) { player.basicFactoryAmount = 0; }
+if(! player.basicFactoryMetalCost) { player.basicFactoryMetalCost = 50; }
+if(! player.basicFactoryCircuitCost) { player.basicFactoryCircuitCost = 50; }
+if(! player.basicFactoryConversions) { player.basicFactoryConversions = 1; }
+if(! player.totalEnergy) { player.totalEnergy = 0; }
 
 
 //Starting game logic
@@ -82,13 +99,15 @@ function updateScreen() {
     $("#energy").html(player.energy);
     $("#metal").html(player.metal);
     $("#circuit").html(player.circuit);
-    $("#eps").html(player.energyPerSecond - player.metalPerSecond * 2);
+    $("#eps").html((player.energyPerSecond - player.metalPerSecond * 2) - player.circuitPerSecond * 4);
     $("#mps").html(player.metalPerSecond);
+    $("#cps").html(player.circuitPerSecond);
     $("#energyPerCrankClick").html(player.energyAtOnce);
 }
 
 $("#makeEnergy").on('click', function() {
     player.energy += player.energyAtOnce;
+    player.totalEnergy += player.energyAtOnce;
     updateScreen();
 });
 
@@ -154,6 +173,25 @@ $("#buyBasicRobot").on('click', function() {
     updateScreen();
 });
 
+$("#buyBasicFactory").on('click', function() {
+    if(player.metal >= player.basicFactoryMetalCost && player.circuit >= player.basicFactoryCircuitCost) {
+        player.metal -= player.basicFactoryMetalCost;
+        player.circuit -= player.basicFactoryCircuitCost;
+        player.basicFactoryAmount++;
+        player.basicFactoryMetalCost *= 2;
+        player.basicFactoryCircuitCost *= 2;
+        $("#buyBasicFactory").html("Make for " + player.basicFactoryMetalCost + " metal and " + player.basicFactoryCircuitCost + " circuits");
+        $("#basicFactoryLevel").html("lvl " + player.basicRobotAmount);
+        player.circuitPerSecond++;
+    } else {
+        $("#buyBasicFactory").removeClass('btn-success').addClass('btn-warning');
+        setTimeout(function(){
+            $("#buyBasicFactory").removeClass('btn-warning').addClass('btn-success');
+        }, 2000);
+    }
+    updateScreen();
+});
+
 $("#upgradeCrank").on('click', function() {
     if(player.metal >= player.crankUpgradeMetalCost && player.energy >= player.crankUpgradeEnergyCost) {
         player.metal -= player.crankUpgradeMetalCost;
@@ -174,10 +212,15 @@ $("#upgradeCrank").on('click', function() {
 //The main game loop
 setInterval(function(){
     player.energy += player.energyPerSecond;
+    player.totalEnergy += player.energyPerSecond;
 
     if(player.energy >= 2 * player.metalPerSecond) {
         player.energy -= 2 * player.metalPerSecond;
         player.metal += player.metalPerSecond * player.basicRobotConversions;
+    }
+    if(player.energy >= 4 * player.circuitPerSecond) {
+        player.energy -= 4 * player.circuitPerSecond;
+        player.circuit += player.circuitPerSecond * player.basicFactoryConversions;
     }
 
     updateScreen();
@@ -186,4 +229,8 @@ setInterval(function(){
 //Auto-saving
 setInterval(function(){
     saveGame();
+    if(player.totalEnergy >= 2000) {
+        $("#basicFactory").removeClass('hidden');
+        player.isBasicFactoryUnlocked = true;
+    }
 }, 10000);
