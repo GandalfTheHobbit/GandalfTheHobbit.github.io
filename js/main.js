@@ -37,6 +37,7 @@ window.onload = function() {
         var result = localStorage.getItem("gameSave");
         player = JSON.parse(result);
         console.log('loaded');
+        updateView();
     }
 
     function reset() {
