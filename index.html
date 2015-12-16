@@ -15,17 +15,20 @@
             ga('send', 'pageview');
         </script>
     </head>
-    <body onload="loadGame();">
+    <body>
         <div id="container">
             <div id="game">
-                <h1>Energy Incremental</h1>
+                <div id="header" style="padding-bottom: 50px;">
+                    <h1 style="display:inline-block; float: left;">Energy Incremental</h1>
+                    <button id="loadtheGame" class="btn btn-xlg btn-primary" style="display:inline-block; float: right;">Load</button>
+                    <button id="savetheGame" class="btn btn-xlg btn-primary" style="display:inline-block; float: right;">Save</button>
+                </div>
                 <hr>
                 <button class="btn btn-primary btn-lg btn-block" id="makeEnergy">Use your crank to generate <span id="energyPerCrankClick">1</span> energy.</button>
                 <br>
                 <p>
                     Energy: <span id="energy">0</span><br>
-                    Energy per second: <span id="eps">0</span><br>
-                    Energy per click: <span id="epc">1</span><br><br>
+                    Energy per second: <span id="eps">0</span><br><br>
 
                     Metal: <span id="metal">0</span><br>
                 </p>
@@ -70,6 +73,7 @@
                 </center>
             </footer>
         </div id="container">
+        <script src="js/js.cookie.js"></script>
         <script src="js/main.js"></script>
     </body>
 </html>

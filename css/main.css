@@ -11,3 +11,12 @@ footer {
 td {
     width: 300px;
 }
+
+.btn-xlg {
+    padding: 15px 25px;
+    font-size: 20px; //change this to your desired size
+    line-height: normal;
+    -webkit-border-radius: 8px;
+       -moz-border-radius: 8px;
+            border-radius: 8px;
+}
