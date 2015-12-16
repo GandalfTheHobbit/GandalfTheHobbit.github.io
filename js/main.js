@@ -28,13 +28,15 @@ window.onload = function() {
         updateScreen();
     }
 
+    function saveGame() {
+        localStorage.setItem("gameSave", JSON.stringify(player));
+        console.log('saved');
+    }
+
     function loadGame() {
         var result = localStorage.getItem("gameSave");
         player = JSON.parse(result);
-    }
-
-    function saveGame() {
-        localStorage.setItem("gameSave", JSON.stringify(player));
+        console.log('loaded');
     }
 
     function reset() {
