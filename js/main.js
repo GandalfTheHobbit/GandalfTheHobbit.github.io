@@ -74,6 +74,7 @@ if(! player.basicRobotAmount) { player.basicRobotAmount = 0; }
 if(! player.basicRobotMetalCost) { player.basicRobotMetalCost = 10; }
 if(! player.basicRobotCircuitCost) { player.basicRobotCircuitCost = 10; }
 if(! player.basicRobotConversions) { player.basicRobotConversions = 1; }
+if(! player.metalPerSecond) { player.metalPerSecond = 0; }
 
 
 //Starting game logic
