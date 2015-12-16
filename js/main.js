@@ -68,6 +68,14 @@ $("#resettheGame").on('click', function() {
     }
 });
 
+
+//Content addition pack (for new content, setting it to the right values)
+if(! player.basicRobotAmount) { player.basicRobotAmount = 0; }
+if(! player.basicRobotMetalCost) { player.basicRobotMetalCost = 10; }
+if(! player.basicRobotCircuitCost) { player.basicRobotCircuitCost = 10; }
+if(! player.basicRobotConversions) { player.basicRobotConversions = 1; }
+
+
 //Starting game logic
 function updateScreen() {
     $("#energy").html(player.energy);
