@@ -43,7 +43,7 @@ function loadGame() {
 
 function reset() {
     localStorage.removeItem("gameSave");
-    updateView();
+    window.location.reload();
 }
 
 if(localStorage.getItem("gameSave") === null){
@@ -58,6 +58,14 @@ $("#loadtheGame").on('click', function() {
 
 $("#savetheGame").on('click', function() {
     saveGame();
+});
+
+$("#resettheGame").on('click', function() {
+    if(confirm("Are you sure you want to reset the game?")){
+        reset();
+    } else{
+        return false;
+    }
 });
 
 //Starting game logic
