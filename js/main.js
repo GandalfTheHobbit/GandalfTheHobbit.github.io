@@ -144,7 +144,7 @@ $("#buyBasicRobot").on('click', function() {
         player.basicRobotCircuitCost *= 2;
         $("#buyBasicRobot").html("Make for " + player.basicRobotMetalCost + " metal and " + player.basicRobotCircuitCost + " circuits");
         $("#basicRobotLevel").html("lvl " + player.basicRobotAmount);
-        player.metalPerSecond += player.basicRobotAmount * player.basicRobotConversions;
+        player.metalPerSecond++;
     } else {
         $("#buyBasicRobot").removeClass('btn-success').addClass('btn-warning');
         setTimeout(function(){
@@ -177,7 +177,7 @@ setInterval(function(){
 
     if(player.energy >= 2 * player.metalPerSecond) {
         player.energy -= 2 * player.metalPerSecond;
-        player.metal += player.metalPerSecond;
+        player.metal += player.metalPerSecond * player.basicRobotConversions;
     }
 
     updateScreen();
