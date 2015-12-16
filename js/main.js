@@ -3,7 +3,10 @@ var player = {
      energy: 0,
      energyAtOnce: 1,
      energyPerSecond: 0,
+
      metal: 0,
+     metalPerSecond: 0,
+     circuit: 0,
 
      crankUpgradeEnergyCost: 10,
      crankUpgradeMetalCost: 5,
@@ -11,18 +14,16 @@ var player = {
     //Generators
      generatorCost: 2,
      generatorEarnings: 1,
-     generatorAmount: 0
+     generatorAmount: 0,
+
+     //Basic Robots
+     basicRobotMetalCost: 10,
+     basicRobotCircuitCost: 10,
+     basicRobotConversions: 1,
+     basicRobotAmount: 0
 };
 
 //Loading and saving
-function updateView() {
-    $("#buyGenerator").html("Make for " + player.generatorCost + " metal");
-    $("#generatorLevel").html( "lvl " + player.generatorAmount);
-    $("#upgradeCrank").html( "Upgrade for " + player.crankUpgradeEnergyCost + " energy and " + player.crankUpgradeMetalCost + " metal");
-
-    updateScreen();
-}
-
 function saveGame() {
     localStorage.setItem("gameSave", JSON.stringify(player));
     console.log('saved');
@@ -32,15 +33,18 @@ function loadGame() {
     var result = localStorage.getItem("gameSave");
     player = JSON.parse(result);
     console.log('loaded');
-    updateView();
+    $("#buyGenerator").html("Make for " + player.generatorCost + " metal");
+    $("#generatorLevel").html("lvl " + player.generatorAmount);
+    $("#upgradeCrank").html("Upgrade for " + player.crankUpgradeEnergyCost + " energy and " + player.crankUpgradeMetalCost + " metal");
+    $("#buyBasicRobot").html("Make for " + player.basicRobotMetalCost + " metal and " + player.basicRobotCircuitCost + " circuits");
+    $("#basicRobotLevel").html("lvl " + player.basicRobotAmount);
+    updateScreen();
 }
 
 function reset() {
     localStorage.removeItem("gameSave");
     updateView();
 }
-
-//window.onbeforeunload = saveGame();
 
 if(localStorage.getItem("gameSave") === null){
     saveGame();
@@ -60,7 +64,9 @@ $("#savetheGame").on('click', function() {
 function updateScreen() {
     $("#energy").html(player.energy);
     $("#metal").html(player.metal);
-    $("#eps").html(player.energyPerSecond);
+    $("#circuit").html(player.circuit);
+    $("#eps").html(player.energyPerSecond - player.metalPerSecond * 2);
+    $("#mps").html(player.metalPerSecond);
     $("#energyPerCrankClick").html(player.energyAtOnce);
 }
 
@@ -82,6 +88,19 @@ $("#energyToMetal").on('click', function() {
     updateScreen();
 });
 
+$("#energyToCircuit").on('click', function() {
+    if(player.energy >= 4) {
+        player.energy -= 4;
+        player.circuit++;
+    } else {
+        $("#energyToCircuit").removeClass('btn-success').addClass('btn-warning');
+        setTimeout(function(){
+            $("#energyToCircuit").removeClass('btn-warning').addClass('btn-success');
+        }, 2000);
+    }
+    updateScreen();
+});
+
 $("#buyGenerator").on('click', function() {
     if(player.metal >= player.generatorCost) {
         player.metal -= player.generatorCost;
@@ -94,6 +113,25 @@ $("#buyGenerator").on('click', function() {
         $("#buyGenerator").removeClass('btn-success').addClass('btn-warning');
         setTimeout(function(){
             $("#buyGenerator").removeClass('btn-warning').addClass('btn-success');
+        }, 2000);
+    }
+    updateScreen();
+});
+
+$("#buyBasicRobot").on('click', function() {
+    if(player.metal >= player.basicRobotMetalCost && player.circuit >= player.basicRobotCircuitCost) {
+        player.metal -= player.basicRobotMetalCost;
+        player.circuit -= player.basicRobotCircuitCost;
+        player.basicRobotAmount++;
+        player.basicRobotMetalCost *= 2;
+        player.basicRobotCircuitCost *= 2;
+        $("#buyBasicRobot").html("Make for " + player.basicRobotMetalCost + " metal and " + player.basicRobotCircuitCost + " circuits");
+        $("#basicRobotLevel").html("lvl " + player.basicRobotAmount);
+        player.metalPerSecond += player.basicRobotAmount * player.basicRobotConversions;
+    } else {
+        $("#buyBasicRobot").removeClass('btn-success').addClass('btn-warning');
+        setTimeout(function(){
+            $("#buyBasicRobot").removeClass('btn-warning').addClass('btn-success');
         }, 2000);
     }
     updateScreen();
@@ -119,6 +157,11 @@ $("#upgradeCrank").on('click', function() {
 //The main game loop
 setInterval(function(){
     player.energy += player.energyPerSecond;
+
+    if(player.energy >= 2 * player.metalPerSecond) {
+        player.energy -= 2 * player.metalPerSecond;
+        player.metal += player.metalPerSecond;
+    }
 
     updateScreen();
 }, 1000);

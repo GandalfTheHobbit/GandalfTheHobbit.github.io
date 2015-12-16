@@ -28,12 +28,11 @@
                 <button class="btn btn-primary btn-lg btn-block" id="makeEnergy">Use your crank to generate <span id="energyPerCrankClick">1</span> energy.</button>
                 <br>
                 <p>
-                    Energy: <span id="energy">0</span><br>
-                    Energy per second: <span id="eps">0</span><br><br>
-
-                    Metal: <span id="metal">0</span><br>
+                    Energy: <span id="energy">0</span> (Per Second: <span id="eps">0</span>)<br>
+                    Metal: <span id="metal">0</span> (Per Second: <span id="mps">0</span>)<br>
+                    Circuits: <span id="circuit">0</span> (Per Second: <span id="cps">0</span>)<br>
                 </p>
-                <h3>Conversions</h3>
+                <h3>Fabrications</h3>
                 <table class="table">
                     <tr>
                         <td>
@@ -43,17 +42,32 @@
                             <button id="energyToMetal" class="btn btn-success">Make for 2 energy</button>
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            <b>Circuit</b>
+                        </td>
+                        <td>
+                            <button id="energyToCircuit" class="btn btn-success">Make for 4 energy</button>
+                        </td>
+                    </tr>
                 </table>
                 <h3>Buildings</h3>
                 <table class="table">
                     <tr>
                         <td>
-                            <b>Generator <small id="generatorLevel">lvl 0</small></b>
+                            <b>Generator, generates 1 energy <small id="generatorLevel">lvl 0</small></b>
                         </td>
                         <td>
                             <button id="buyGenerator" class="btn btn-success">Make for 2 metal</button>
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            <b>Basic robot, fabricates 1 metal <small id="basicRobotLevel">lvl 0</small></b>
+                        </td>
+                        <td>
+                            <button id="buyBasicRobot" class="btn btn-success">Make for 10 metal and 10 circuits</button>
+                        </td>
                 </table>
                 <h3>Upgrades</h3>
                 <table class="table">
@@ -67,6 +81,7 @@
                     </tr>
                 </table>
             </div>
+            <br><br><br>
             <footer>
                 <center>
                     <b>Made by GandalfTheHobbit </b>
@@ -74,7 +89,6 @@
                 </center>
             </footer>
         </div id="container">
-        <script src="js/js.cookie.js"></script>
         <script src="js/main.js"></script>
     </body>
 </html>
