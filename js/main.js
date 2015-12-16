@@ -92,6 +92,7 @@ if(! player.basicFactoryMetalCost) { player.basicFactoryMetalCost = 50; }
 if(! player.basicFactoryCircuitCost) { player.basicFactoryCircuitCost = 50; }
 if(! player.basicFactoryConversions) { player.basicFactoryConversions = 1; }
 if(! player.totalEnergy) { player.totalEnergy = 0; }
+if(! player.isBasicFactoryUnlocked) { player.isBasicFactoryUnlocked = false; }
 
 
 //Starting game logic
@@ -181,7 +182,7 @@ $("#buyBasicFactory").on('click', function() {
         player.basicFactoryMetalCost *= 2;
         player.basicFactoryCircuitCost *= 2;
         $("#buyBasicFactory").html("Make for " + player.basicFactoryMetalCost + " metal and " + player.basicFactoryCircuitCost + " circuits");
-        $("#basicFactoryLevel").html("lvl " + player.basicRobotAmount);
+        $("#basicFactoryLevel").html("lvl " + player.basicFactoryAmount);
         player.circuitPerSecond++;
     } else {
         $("#buyBasicFactory").removeClass('btn-success').addClass('btn-warning');
