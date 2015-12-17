@@ -77,7 +77,8 @@ function loadGame() {
     if(player.isGeneratorUpgradeUnlocked === true) {
         $("#generatorUpgrade").removeClass('hidden');
     }
-
+    
+    $("#upgradeGenerator").html("Upgrade for " + player.generatorUpgradeMetalCost + " metal");
     $("#upgradeBasicRobot").html("Upgrade for " + player.basicRobotUpgradeEnergyCost + " energy and " + player.basicRobotUpgradeMetalCost + " metal");
     $("#upgradeBasicFactory").html("Upgrade for " + player.basicFactoryUpgradeCircuitCost + " circuits and " + player.basicFactoryUpgradeMetalCost + " metal");
 
