@@ -77,7 +77,7 @@ function loadGame() {
     if(player.isGeneratorUpgradeUnlocked === true) {
         $("#generatorUpgrade").removeClass('hidden');
     }
-    
+
     $("#upgradeGenerator").html("Upgrade for " + player.generatorUpgradeMetalCost + " metal");
     $("#upgradeBasicRobot").html("Upgrade for " + player.basicRobotUpgradeEnergyCost + " energy and " + player.basicRobotUpgradeMetalCost + " metal");
     $("#upgradeBasicFactory").html("Upgrade for " + player.basicFactoryUpgradeCircuitCost + " circuits and " + player.basicFactoryUpgradeMetalCost + " metal");
@@ -224,8 +224,8 @@ $("#upgradeCrank").on('click', function() {
         player.metal -= player.crankUpgradeMetalCost;
         player.energy -= player.crankUpgradeEnergyCost;
         player.energyAtOnce++;
-        player.crankUpgradeEnergyCost *= 4;
-        player.crankUpgradeMetalCost *= 4;
+        player.crankUpgradeEnergyCost *= 2;
+        player.crankUpgradeMetalCost *= 2;
         $("#upgradeCrank").html("Upgrade for " + player.crankUpgradeEnergyCost + " energy and " + player.crankUpgradeMetalCost + " metal");
     } else {
         $("#upgradeCrank").removeClass('btn-success').addClass('btn-warning');
@@ -240,7 +240,7 @@ $("#upgradeGenerator").on('click', function() {
     if(player.metal >= player.generatorUpgradeMetalCost) {
         player.metal -= player.generatorUpgradeMetalCost;
         player.generatorConversions++;
-        player.generatorUpgradeMetalCost *= 4;
+        player.generatorUpgradeMetalCost *= 2;
         $("#upgradeGenerator").html("Upgrade for " + player.generatorUpgradeMetalCost + " metal");
     } else {
         $("#upgradeGenerator").removeClass('btn-success').addClass('btn-warning');
@@ -256,8 +256,8 @@ $("#upgradeBasicRobot").on('click', function() {
         player.metal -= player.basicRobotUpgradeMetalCost;
         player.energy -= player.basicRobotUpgradeEnergyCost;
         player.basicRobotConversions++;
-        player.basicRobotUpgradeMetalCost *= 4;
-        player.basicRobotUpgradeEnergyCost *= 4;
+        player.basicRobotUpgradeMetalCost *= 2;
+        player.basicRobotUpgradeEnergyCost *= 2;
         $("#upgradeBasicRobot").html("Upgrade for " + player.basicRobotUpgradeEnergyCost + " energy and " + player.basicRobotUpgradeMetalCost + " metal");
     } else {
         $("#upgradeBasicRobot").removeClass('btn-success').addClass('btn-warning');
@@ -273,8 +273,8 @@ $("#upgradeBasicFactory").on('click', function() {
         player.metal -= player.basicFactoryUpgradeMetalCost;
         player.circuit -= player.basicFactoryUpgradeCircuitCost;
         player.basicFactoryConversions++;
-        player.basicFactoryUpgradeMetalCost *= 4;
-        player.basicFactoryUpgradeCircuitCost *= 4;
+        player.basicFactoryUpgradeMetalCost *= 2;
+        player.basicFactoryUpgradeCircuitCost *= 2;
         $("#upgradeBasicFactory").html("Upgrade for " + player.basicFactoryUpgradeCircuitCost + " circuits and " + player.basicFactoryUpgradeMetalCost + " metal");
     } else {
         $("#upgradeBasicFactory").removeClass('btn-success').addClass('btn-warning');
